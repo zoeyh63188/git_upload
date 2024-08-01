@@ -1,43 +1,43 @@
 /*實作練習2 - 資料定義*/
-CREATE TABLE "SHELTER" 
+create table SHELTER 
    (	
-   "SHELTER_ID"  VARCHAR2(4) primary key, 
-	"CATEGORY" VARCHAR2(4) references CATEGORY(CATEGORY_ID), 
-	"VILLAGE" VARCHAR2(4) references VILLAGE(VILLAGE_ID), 
-	"COUNTRY" VARCHAR2(4)  references COUNTRY(COUNTRY_ID) , 
-	"ADDRESS" NVARCHAR2(50), 
-	"CAPACITY" INTEGER, 
-	"FLOOR" INTEGER,
-    "POLICE_STATION" VARCHAR2(4) references POLICE(POLICE_ID)
+    SHELTER_ID  VARCHAR2(4) primary key, 
+    CATEGORY VARCHAR2(4) references CATEGORY(CATEGORY_ID), 
+	VILLAGE VARCHAR2(4) references VILLAGE(VILLAGE_ID), 
+	COUNTRY VARCHAR2(4)  references COUNTRY(COUNTRY_ID) , 
+	ADDRESS NVARCHAR2(50), 
+	CAPACITY INTEGER, 
+	FLOOR INTEGER,
+    POLICE_STATION VARCHAR2(4) references POLICE(POLICE_ID)
 	);   
     
-CREATE TABLE "CATEGORY" 
+create table CATEGORY 
    (	
-   "CATEGORY_ID"  VARCHAR2(4) primary key, 
-	"CATEGORY" NVARCHAR2(10)
+    CATEGORY_ID  VARCHAR2(4) primary key, 
+    CATEGORY NVARCHAR2(10)
 	); 
 
-CREATE TABLE "POLICE" 
+create table POLICE 
    (	
-   "POLICE_ID" VARCHAR2(4) primary key, 
-	"NAME" NVARCHAR2(20),
-    "ADDRESS" NVARCHAR2(20),
-    "TEL" VARCHAR2(10)
+    POLICE_ID VARCHAR2(4) primary key, 
+	NAME NVARCHAR2(20),
+    ADDRESS NVARCHAR2(20),
+    TEL VARCHAR2(10)
 	);
   
-CREATE TABLE "VILLAGE" 
+create table VILLAGE 
    (	
-   "VILLAGE_ID" VARCHAR2(4) primary key, 
-	"NAME" NVARCHAR2(20),
-    "ADDRESS" NVARCHAR2(20),
-    "TEL" VARCHAR2(10)
+    VILLAGE_ID VARCHAR2(4) primary key, 
+	NAME NVARCHAR2(20),
+    ADDRESS NVARCHAR2(20),
+    TEL VARCHAR2(10)
 	);
     
-CREATE TABLE "COUNTRY" 
+create table COUNTRY 
    (	
-   "COUNTRY_ID" VARCHAR2(4) primary key, 
-	"CITY" NVARCHAR2(20),
-    "DISTRICT" NVARCHAR2(20)
+    COUNTRY_ID VARCHAR2(4) primary key, 
+	CITY NVARCHAR2(20),
+    DISTRICT NVARCHAR2(20)
 	);
     
 
@@ -80,111 +80,46 @@ insert into SHELTER values('A10','K04','C008','B04','信義里中正路116號','78','1'
 /*實作練習4 - 資料查詢*/
 /*4-1. 列出 轄管 區域內有單一 避難設施大於 1000 容人數量的 轄管分局 及 分局連絡電話 。*/
 
-select 
-    distinct s.POLICE_OFFICE as 分局代號, 
-    p.NAME as 轄管分局,
-    p.TEL as 分局連絡電話
-from
-    shelter s
-inner join 
-    POLICE p
-on   
-    s.POLICE_OFFICE = p.POLICE_ID
-where 
-    s.CAPACITY > 1000;
+select distinct p.NAME as 轄管分局, p.TEL as 分局連絡電話
+ from STUDENT.SHELTER s
+ inner join STUDENT.POLICE p
+ on s.POLICE_OFFICE = p.POLICE_ID
+ where s.CAPACITY > 1000;
 
 /*4-2. 列出 轄管 區域內有單一 避難設施大於 1000 容人數量的 轄管分局 及 分局連絡電話 並計算出 避難設施大於1000容人數量的設施數量 。 （關鍵字 partition)*/
 
-select 
-    s.POLICE_OFFICE as 分局代號, 
-    p.NAME as 轄管分局,
-    p.TEL as 分局連絡電話,
-    count(s.SHELTER_ID) as 避難設施數量
-from
-    shelter s
-inner join 
-    POLICE p
-on   
-    s.POLICE_OFFICE = p.POLICE_ID
-where 
-    s.CAPACITY > 1000
-group by
-     s.POLICE_OFFICE, 
-    p.NAME,
-    p.TEL;
+select p.NAME as 轄管分局, p.TEL as 分局連絡電話, count(s.SHELTER_ID) as 避難設施數量
+ from STUDENT.SHELTER s
+ inner join STUDENT.POLICE p
+ on s.POLICE_OFFICE = p.POLICE_ID
+ where s.CAPACITY > 1000
+ group by s.POLICE_OFFICE,  p.NAME, p.TEL;
 
 
 /*4-3. 承上題， 再補上 避難設施地址 、 類型 。*/
-select 
-    s.POLICE_OFFICE as 分局代號, 
-    p.NAME as 轄管分局,
-    p.TEL as 分局連絡電話,
-    count(s.SHELTER_ID) over (partition by s.POLICE_OFFICE) as 避難設施數量,
-    (cou.CITY || cou.DISTRICT || s.ADDRESS ) as 避難設施地址,
-    c.CATEGORY as 類型
-from
-    SHELTER s
-inner join 
-    POLICE p
-on   
-    s.POLICE_OFFICE = p.POLICE_ID
-left join
-    CATEGORY c
-on 
-    s.CATEGORY = c.CATEGORY_ID
-left join
-    COUNTRY cou
-on
-    s.COUNTRY = cou.COUNTRY_ID    
-where 
-    s.CAPACITY > 1000;
+select p.NAME as 轄管分局, p.TEL as 分局連絡電話, count(s.SHELTER_ID) over (partition by s.POLICE_OFFICE) as 避難設施數量, (cou.CITY || cou.DISTRICT || s.ADDRESS ) as 避難設施地址, c.CATEGORY as 類型
+ from STUDENT.SHELTER s
+ inner join STUDENT.POLICE p on s.POLICE_OFFICE = p.POLICE_ID
+ left join STUDENT.CATEGORY c on s.CATEGORY = c.CATEGORY_ID
+ left join STUDENT.COUNTRY cou on s.COUNTRY = cou.COUNTRY_ID    
+ where s.CAPACITY > 1000;
 
 
 /*4-4. 查詢設施地址包含「中」字的避難設施，列出資料必須含 村里別 、 避難設施地址 、 容人數量 、 轄管分局 及 分局連絡電話 。*/
-select 
-    v.NAME as 村里別,
-    (cou.CITY || cou.DISTRICT || s.ADDRESS ) as 避難設施地址,
-    s.CAPACITY as 容人數量, 
-    p.NAME as 轄管分局,
-    p.TEL as 分局連絡電話
-from
-    SHELTER s
-left join
-    VILLAGE v
-on
-    s.VILLAGE = v.VILLAGE_ID
-left join
-    COUNTRY cou
-on
-    s.COUNTRY = cou.COUNTRY_ID
-left join
-    POLICE p
-on   
-    s.POLICE_OFFICE = p.POLICE_ID
-where 
-    (cou.CITY || cou.DISTRICT || s.ADDRESS ) like '%中%';
+select v.NAME as 村里別, (cou.CITY || cou.DISTRICT || s.ADDRESS ) as 避難設施地址, s.CAPACITY as 容人數量, p.NAME as 轄管分局, p.TEL as 分局連絡電話
+ from STUDENT.SHELTER s
+ left join STUDENT.VILLAGE v on s.VILLAGE = v.VILLAGE_ID
+ left join STUDENT.COUNTRY cou on s.COUNTRY = cou.COUNTRY_ID
+ left join STUDENT.POLICE p on s.POLICE_OFFICE = p.POLICE_ID
+ where (cou.CITY || cou.DISTRICT || s.ADDRESS ) like '%中%';
+ 
 /*4-5. 查詢 所有 類別 為 公寓及大樓 的 避難設施 列出 資料必須包含 村里別 、 村里辦公室位置 、 避難設施地址 、 容人數量 。*/
-select 
-    v.NAME as 村里別,
-    v.ADDRESS as 村里辦公室位置,
-    (cou.CITY || cou.DISTRICT || s.ADDRESS ) as 避難設施地址,
-    s.CAPACITY as 容人數量
-from
-    SHELTER s
-left join
-    VILLAGE v
-on
-    s.VILLAGE = v.VILLAGE_ID
-left join
-    COUNTRY cou
-on
-    s.COUNTRY = cou.COUNTRY_ID
-left join
-    CATEGORY c
-on
-    s.CATEGORY = c.CATEGORY_ID
-where
-    c.CATEGORY in ('公寓', '大樓');
+select v.NAME as 村里別, v.ADDRESS as 村里辦公室位置, (cou.CITY || cou.DISTRICT || s.ADDRESS ) as 避難設施地址, s.CAPACITY as 容人數量
+ from STUDENT.SHELTER s
+ left join STUDENT.VILLAGE v on s.VILLAGE = v.VILLAGE_ID
+ left join STUDENT.COUNTRY cou on s.COUNTRY = cou.COUNTRY_ID
+ left join STUDENT.CATEGORY c on s.CATEGORY = c.CATEGORY_ID
+ where c.CATEGORY in ('公寓', '大樓');
     
 
 /*實作練習5 - 資料操控*/
@@ -192,11 +127,13 @@ where
 
 create table SHELTER1 as select * from SHELTER;
 
-update SHELTER1
+update STUDENT.SHELTER1
 set CAPACITY = '5000'
 where ADDRESS = '和平街79號';
 
 /*5-2. 刪除避難設施小 於 1000 容人數量的 資料 。*/
 
-delete from SHELTER1
-where CAPACITY < '1000';
+delete from STUDENT.SHELTER
+where CAPACITY < 1000;
+
+commit;
