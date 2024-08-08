@@ -7,7 +7,7 @@ public class Employee implements IWork {
 
 	// Constructor
 	public Employee() {
-	};
+	}
 
 	public Employee(String name, String department, int salary) {
 		this.name = name;
@@ -16,6 +16,7 @@ public class Employee implements IWork {
 	}
 
 	// 實作IWork
+	@Override
 	public void printInfo() {
 		System.out.printf("薪資單\n姓名: %s 工作部門: %s\n月薪: %d\n", name, department, salary);
 	}

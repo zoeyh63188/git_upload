@@ -1,21 +1,25 @@
 package com.cathaybk.practice.nt50347.b;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class RandomLotto {
 
 	public static void main(String[] args) {
-		int[] number = new int[6];
+		List<Integer> number = new ArrayList<>();
 		System.out.print("排序前:");
-		for (int i = 0; i < 6; i++) {
-			int num = (int) (Math.random() * 50 + 1);
-			if (!Arrays.asList(number).contains(num)) {
-				number[i] = (int) (Math.random() * 50 + 1);
-				System.out.print(number[i] + " ");
-			}
+		while (number.size() < 6) {
+			int num = (int) (Math.random() * 48 + 1);
+
+			number.add(num);
+
+		}
+		for (Integer n : number) {
+			System.out.print(n + " ");
 		}
 
-		Arrays.sort(number);
+		Collections.sort(number);
 		System.out.print("\n排序後:");
 		for (int n : number) {
 			System.out.print(n + " ");

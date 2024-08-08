@@ -29,14 +29,17 @@ public class HRMain {
 				file.createNewFile();
 			}
 
-			for (int i = 0; i < employeeList.size(); i++) {
-				if (employeeList.get(i) instanceof Sales) {
-					bufferedWriter.write(
-							employeeList.get(i).getName() + ", " + ((Sales) employeeList.get(i)).getPayment() + "\n");
+			StringBuilder sb = new StringBuilder();
+			for (Employee e : employeeList) {
+				if (e instanceof Sales) {
+					bufferedWriter.write(sb.append(e.getName()).append(", ").append(((Sales) e).getPayment())
+							.append("\n").toString());
 				} else {
-					bufferedWriter.write(employeeList.get(i).getName() + ", "
-							+ ((Supervisor) employeeList.get(i)).getPayment() + "\n");
+					bufferedWriter.write(sb.append(e.getName()).append(", ").append(((Supervisor) e).getPayment())
+							.append("\n").toString());
 				}
+
+				sb.setLength(0);
 
 			}
 			System.out.println("File written Successfully");
