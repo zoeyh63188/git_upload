@@ -11,20 +11,19 @@ public class RandomLotto {
 		System.out.print("排序前:");
 		while (number.size() < 6) {
 			int num = (int) (Math.random() * 48 + 1);
-
-			number.add(num);
-
+			if (!number.contains(num)) {
+				number.add(num);
+			}
 		}
-		for (Integer n : number) {
-			System.out.print(n + " ");
+		for (int nums : number) {
+			System.out.print(nums + " ");
 		}
 
 		Collections.sort(number);
 		System.out.print("\n排序後:");
-		for (int n : number) {
-			System.out.print(n + " ");
+		for (int nums : number) {
+			System.out.print(nums + " ");
 		}
 
 	}
-
 }

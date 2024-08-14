@@ -19,7 +19,7 @@ public class Database {
 	private static final String DELETE_CARS_SQL = "delete from STUDENT.CARS where MANUFACTURER = ? and TYPE = ?";
 
 	public static void main(String[] args) throws Exception {
-		List<Map<String, String>> carList = print();
+		print();
 
 		try (Scanner input = new Scanner(System.in)) {
 			Boolean reInput = true;
@@ -64,9 +64,7 @@ public class Database {
 					updateMap.put("MIN_PRICE", input.nextLine());
 					System.out.print("請輸入售價: ");
 					updateMap.put("PRICE", input.nextLine());
-					if (carList.contains(updateMap)) {
-						System.out.println("已存在相同資料!");
-					} else if (!doQuery(manufacturer, type)) {
+					if (!doQuery(manufacturer, type)) {
 						doUpdate(updateMap);
 						doQuery(manufacturer, type);
 						reInput = false;
@@ -81,9 +79,14 @@ public class Database {
 					manufacturer = input.nextLine();
 					System.out.print("請輸入類型: ");
 					type = input.nextLine();
-					doQuery(manufacturer, type);
-					System.out.println("查詢成功");
-					reInput = false;
+
+					if (doQuery(manufacturer, type)) {
+						System.out.println("沒有這筆資料!");
+					} else {
+						System.out.println("查詢成功");
+						reInput = false;
+					}
+
 					break;
 				case "delete":
 					input.nextLine();

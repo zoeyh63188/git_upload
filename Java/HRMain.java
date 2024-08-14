@@ -30,12 +30,12 @@ public class HRMain {
 			}
 
 			StringBuilder sb = new StringBuilder();
-			for (Employee e : employeeList) {
-				if (e instanceof Sales) {
-					bufferedWriter.write(sb.append(e.getName()).append(", ").append(((Sales) e).getPayment())
+			for (Employee employee : employeeList) {
+				if (employee instanceof Sales) {
+					bufferedWriter.write(sb.append(employee.getName()).append(", ").append(((Sales) employee).getPayment())
 							.append("\n").toString());
 				} else {
-					bufferedWriter.write(sb.append(e.getName()).append(", ").append(((Supervisor) e).getPayment())
+					bufferedWriter.write(sb.append(employee.getName()).append(", ").append(((Supervisor) employee).getPayment())
 							.append("\n").toString());
 				}
 
