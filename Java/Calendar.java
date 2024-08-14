@@ -1,6 +1,7 @@
 package com.cathaybk.practice.nt50347.b;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.time.YearMonth;
 import java.util.Scanner;
 
@@ -14,13 +15,12 @@ public class Calendar {
 				System.out.println("輸入錯誤! 數字介於1 - 12");
 				return;
 			}
-			input.close();
-
-			YearMonth yearMonth = YearMonth.of(2024, month);
+			int year = Year.now().getValue();
+			YearMonth yearMonth = YearMonth.of(year, month);
 			LocalDate firstDateOfMonth = yearMonth.atDay(1);
 			LocalDate endDateOfMonth = yearMonth.atEndOfMonth();
 
-			System.out.printf("        2024年%s月\n", month);
+			System.out.printf("        %s年%s月\n", year, month);
 			System.out.printf("---------------------------\n");
 			System.out.printf("日   一   二   三  四   五  六 \n");
 			System.out.printf("===========================\n");
@@ -32,10 +32,10 @@ public class Calendar {
 				}
 			}
 
-			for (int day = 1; day < endDateOfMonth.getDayOfMonth() + 1; day++) {
-				System.out.printf("%2d  ", day);
+			for (int j = 1; j < endDateOfMonth.getDayOfMonth() + 1; j++) {
+				System.out.printf("%2d  ", j);
 
-				if ((day + firstDay) % 7 == 0) {
+				if ((j + firstDay) % 7 == 0) {
 					System.out.println();
 				}
 
