@@ -3,21 +3,52 @@
   <head>
     <meta charset="UTF-8" />
     <title>HashMap</title>
-    <script defer type="text/javascript" src="HashMap.js"></script>
-    <link rel="stylesheet" href="HashMap.css">
+    <script defer type="text/javascript" src="HashMap.js">
+        let hashMap = new HashMap();
+        let resultStr = '';
+        document.getElementById("buttonPut").addEventListener('click', function () {
+          let key = document.getElementById('inputBoxKey').value;
+          let value = document.getElementById('inputBoxValue').value;
+
+          if (!key.trim()) {
+            alert("請輸入KEY");
+            return;
+          }
+          if (hashMap.contains(key)) {
+            alert("KEY已存在!");
+            return;
+          }
+
+          hashMap.put(key, value);
+          resultStr += (key + " : " + hashMap.get(key) + '<br>');
+          document.getElementById('resultContent').innerHTML = resultStr;
+
+        });
+
+      hashMap.put(key, value);
+      resultStr += (key + " : " + hashMap.get(key) + '<br>');
+      document.getElementById('resultContent').innerHTML = resultStr;
+
+        document.getElementById('buttonClear').addEventListener('click', function(){
+            resultStr = '';
+            document.getElementById('resultContent').innerHTML = resultStr;
+            hashMap.clear();
+        })
+    </script>
+    <link rel="stylesheet" href="HashMap.css" />
   </head>
   <body>
     <form method="get" id="hashMapForm">
       <div class="inputDiv">
         <div class="keyDiv">
-        <p class="inputKey" id="titleKey">KEY</p>
-        <input type="text" class="inputKey" id="inputBoxKey"/>
+          <p class="inputKey" id="titleKey">KEY</p>
+          <input type="text" class="inputKey" id="inputBoxKey" />
         </div>
         <div class="valueDiv">
-        <p class="inputValue" id="titleValue">VALUE</p>
-        <input type="text" class="inputValue" id="inputBoxValue"/>
+          <p class="inputValue" id="titleValue">VALUE</p>
+          <input type="text" class="inputValue" id="inputBoxValue" />
+        </div>
       </div>
-    </div>
       <hr />
       <button type="button" id="buttonPut">PUT</button>
       <button type="reset" id="buttonClear">CLEAR</button>
