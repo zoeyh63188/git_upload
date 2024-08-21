@@ -5,7 +5,7 @@ document.getElementById('btnInsert').addEventListener('click', function () {
   let type = document.getElementById('typeInput').value;
   let minPrice = document.getElementById('minPriceInput').value;
   let price = document.getElementById('priceInput').value;
-  if (manufacturer === '' || type === '') {
+  if (!manufacturer.trim() || !type.trim()) {
     alert('請輸入製造商和類別!');
   } else {
     count += 1;
@@ -19,10 +19,7 @@ document.getElementById('btnInsert').addEventListener('click', function () {
     radio.setAttribute('name', 'radioOption');
     radio.setAttribute('class', 'radioBtn');
     radio.onclick = function () {
-      manufacturer = '';
-      type = '';
-      minPrice = '';
-      price = '';
+      
       let row = radio.parentElement.parentElement.parentElement;
 
       document.getElementById('manufacturerInput').value = row.childNodes[2].value;
@@ -102,7 +99,7 @@ document.getElementById('btnUpdate').addEventListener('click', function () {
   if (document.querySelector('input[name="radioOption"]:checked') === null) {
     alert('請選擇欲修改的欄位');
     return;
-  } else if (manufacturer === '' || type === '') {
+  } else if (!manufacturer.trim() || !type.trim()) {
     alert('請輸入製造商和類別!');
     return;
   }
