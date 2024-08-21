@@ -1,0 +1,40 @@
+#table {
+  width: 600px;
+  margin-left: 10px;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid black;
+  text-align: center;
+}
+
+#result, .resultSets {
+  width: 600px;
+
+  border-collapse: collapse;
+}
+
+button {
+  padding: auto 10px;
+  margin: 15px 2px;
+}
+
+#buttonTd {
+  text-align: center;
+}
+
+
+#result {
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+p {
+  text-align: center;
+}
+
+input {
+  display: block;
+  margin: auto;
+}

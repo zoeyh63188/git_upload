@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Table</title>
+    <script defer type="text/javascript" src="Table.js"></script>
+    <link rel="stylesheet" href="Table.css" />
+  </head>
+  <body>
+    <div class="frame">
+      <form id="form">
+        <table id="table">
+          <tr>
+            <td><p>製造商</p></td>
+            <td><input type="text" id="manufacturerInput" /></td>
+            <td><p>類別</p></td>
+            <td><input type="text" id="typeInput" /></td>
+          </tr>
+          <tr>
+            <td><p>底價</p></td>
+            <td><input type="text" id="minPriceInput" /></td>
+            <td><p>售價</p></td>
+            <td><input type="text" id="priceInput" /></td>
+          </tr>
+          <tr id="buttonTr">
+            <td colspan="4" id="buttonTd">
+              <button type="button" id="btnInsert">新增</button>
+              <button type="button" id="btnUpdate">修改</button>
+              <button type="reset" id="btnDelete">清空</button>
+            </td>
+          </tr>
+        </table>
+      </form>
+      <table id="result">
+        <tr id="resultTitle">
+          <td>　</td>
+          <th><p>序號</p></th>
+          <th><p>製造商</p></th>
+          <th><p>類別</p></th>
+          <th><p>底價</p></th>
+          <th><p>售價</p></th>
+          <th>　</th>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
