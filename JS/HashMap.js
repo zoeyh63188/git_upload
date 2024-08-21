@@ -22,7 +22,7 @@ var HashMap = function () {
 let hashMap = new HashMap();
 let resultStr = '';
 document.getElementById("buttonPut").addEventListener('click', function () {
-  let key = document.getElementById('inputBoxKey').value;
+  let key = document.getElementById('inputBoxKey').value;                
   let value = document.getElementById('inputBoxValue').value;
  
   console.log("Key:", key); // Debugging output
@@ -46,4 +46,5 @@ document.getElementById("buttonPut").addEventListener('click', function () {
 document.getElementById('buttonClear').addEventListener('click', function(){
     resultStr = '';
     document.getElementById('resultContent').innerHTML = resultStr;
+    hashMap.clear();
 })
